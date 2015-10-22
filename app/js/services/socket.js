@@ -28,21 +28,22 @@
 
     var socketObj = {
       on: function(event, callback) {
+              console.log('setup');
         socket.on(event, function() {
+                        console.log('fired');
           var args = arguments;
-          $rootScope.apply(function() {
-            callback.apply(socket, args);
-          });
+          console.log(typeof callback);
+          if (callback) {
+            callback(args);
+          }
         });
       },
       emit: function(event, data, callback) {
         socket.emit(event, data, function() {
           var args = arguments;
-          $rootScope.apply(function() {
-            if (callback) {
-              callback.apply(socket, args);
-            }
-          });
+          if (callback) {
+            callback.apply(socket, args);
+          }
         });
       },
       registerUser: function(user, callback) {
